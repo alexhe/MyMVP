@@ -3,6 +3,7 @@ package com.haha.mymvp.model;
 import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.os.Looper;
 import android.os.Message;
 
 import static com.haha.mymvp.utils.MyLog.myLog;
@@ -34,13 +35,15 @@ public class AppManager {
     }
 
     HandlerThread mIOThread = new HandlerThread("ioThread");
-    Handler mIOHandler;
+    public Handler mIOHandler;
 
     HandlerThread mNetThread = new HandlerThread("netThread");
-    Handler mNetHandler;
+    public Handler mNetHandler;
 
     HandlerThread mBgThread = new HandlerThread("bgThread");
-    Handler mBgHandler;
+    public Handler mBgHandler;
+
+    public Handler mMainHandler;
 
     private void initThreads(){
         myLog(TAG,"initThreads");
@@ -67,6 +70,14 @@ public class AppManager {
                 handleBgMessage(msg);
             }
         };
+
+        mMainHandler = new Handler(Looper.getMainLooper()) {
+            @Override
+            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+                handleMainMessage(msg);
+            }
+        };
     }
 
     private void handleIOMessage(Message msg){
@@ -79,5 +90,16 @@ public class AppManager {
 
     private void handleBgMessage(Message msg){
 
+    }
+
+    private void handleMainMessage(Message msg){
+        final int what = msg.what;
+        switch (what) {
+            case 100:
+                myLog("main msg id: 100");
+                break;
+                default:
+                    break;
+        }
     }
 }

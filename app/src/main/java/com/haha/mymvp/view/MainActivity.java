@@ -8,6 +8,7 @@ import com.haha.mymvp.R;
 import static com.haha.mymvp.utils.MyLog.myLog;
 
 import com.haha.mymvp.intfc.IMainActivityInterface;
+import com.haha.mymvp.model.AppManager;
 import com.haha.mymvp.presenter.MainActivityPresenter;
 
 
@@ -35,5 +36,15 @@ public class MainActivity extends BaseActivity implements IMainActivityInterface
     @Override
     public int add(int a, int b) {
         return a+b;
+    }
+
+    @Override
+    protected void onResume() {
+        myLog(TAG,"onResume");
+        super.onResume();
+
+        AppManager.getAppMgr().mMainHandler.sendEmptyMessage(100);
+
+
     }
 }
